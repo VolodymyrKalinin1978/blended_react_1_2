@@ -1,3 +1,3 @@
-export const Grid = () => {
-  return <h2>Grid</h2>;
+export const Grid = ({ children }) => {
+  return <ul>{children}</ul>;
 };
