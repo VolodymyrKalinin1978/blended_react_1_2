@@ -3,10 +3,10 @@
     "baseUrl": "src",
     "paths": {
       "components/*": ["components/*"],
-      "data/*": ["data/*"],
-      "helpers/*": ["helpers/*"],
-      "styles/*": ["styles/*"]
-      // "pages/*": ["pages/*"]
+      "styles/*": ["styles/*"],
+      "tabs/*": ["tabs/*"],
+      "apiService/*": ["src/apiService/*"],
+      "hooks/*": ["src/apiService/*"]
     }
   },
   "include": ["src"]

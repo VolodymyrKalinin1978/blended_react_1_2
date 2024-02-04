@@ -1,46 +1,143 @@
-# Секція статистики
+# TODO LIST
 
-Доповни компонент `<Statistics>`, який би показував статистику з переданих
-пропсів - основну статистику інтернет-магазину стосовно зареєстрованих
-користувачів, відгуків тощо . Дані про статистику лежать у файлі
-[stats.json](./src/data/stats.json).
+- Напиши застосунок зберігання todo-листів.
+- Під час додавання та видалення контакту контакти зберігаються у
+  `localStorage`.
+- Під час завантаження застосунку todo-листа, якщо такі є, зчитуються з
+  локального сховища і записуються у внутрішній стан компонента `Todos`.
 
-[![Прев'ю компонента Statistics](https://i.gyazo.com/a75d617620bdb0805e19d5a394699dea.png)](https://gyazo.com/a75d617620bdb0805e19d5a394699dea)
-
-## Опис компонента
-
-Компонент повинен приймати два пропи `title` і `stats`, в яких вказується
-заголовок та об'єкт статистики.
-
-- `title` - не обов'язковий, і якщо він не переданий, не повинна рендеритись
-  розмітка заголовка `<h3>`.
-- `stats` - масив об'єктів, що містять інформацію про елемент статистики. Може
-  мати довільну кількість елементів.
-
-Компонент повинен створювати наступну структуру.
+  В проекті налаштовані Alias imports тому всі імпорти можна вказувати з папки
+  `components`
 
 ```jsx
-<h2 className={style.title}sticTitle>Main Statistics</h2>
-
-<ul className={style.list}>
-  <li className={styled.item}>
-    {/* Тут має бути іконка */}
-    <span className={styled.counter}>2147</span>
-    <p className={styled.text}>Happy Customers</p>
-  </li>
-</ul>
+import { Text } from 'components';
 ```
 
-> Для виконання завдання з іконкою потрібно продумати логіку, як динамічно
-> відмалювати з бібліотеки
-> [**react-icons**](https://github.com/react-icons/react-icons) іконки та
-> змінити дефолтний розмір
+## Крок 1
 
-## Приклад використання
+Застосунок повинен складатися з форми і списку todo-листів. На поточному кроці
+реалізуй додавання тудушки та відображення їх списку. Застосунок повинен
+зберігати тудушки між різними сесіями (оновлення сторінки).
 
-```js
-import stats from 'data/stats.json';
+Використовуйте готову структуру форми з попередньго таска: компонент `<Form/>`
+приймає один проп `onSubmit` - функцію для передачі значення інпута під час
+сабміту форми.
 
-<Statistics title="Main Statistics" stats={stats} />;
-<Statistics stats={data} />;
+```jsx
+<form className={style.form}>
+  <button className={style.button} type="submit">
+    <FiSearch size="16px" />
+  </button>
+
+  <input
+    className={style.input}
+    placeholder="What do you want to write?"
+    name="search"
+    required
+    autoFocus
+  />
+</form>
+```
+
+`state`, що зберігається в батьківському компоненті `<Todos/>`, обов'язково
+повинен бути наступного вигляду.
+
+```bash
+  const [todos, setTodos] = useState([]);
+```
+
+Кожна todo повинна бути об'єктом з властивостями `text` та `id`. Для генерації
+ідентифікаторів використовуй будь-який відповідний пакет, наприклад
+[nanoid](https://www.npmjs.com/package/nanoid). Після завершення цього кроку,
+застосунок повинен виглядати приблизно так.
+
+[![preview](https://i.gyazo.com/de0115918db7d989fbdc10f1744c11c3.png)](https://gyazo.com/de0115918db7d989fbdc10f1744c11c3)
+
+### Опис компонента галереї `<TodoList/>`
+
+Список карток тудушок. Створює компонент наступної структури. Для створення
+списку потрібно використати універсальний компонент `<Grid/>`
+
+```jsx
+<Grid>
+  {array.map(() => (
+    <TodoListItem />
+  ))}
+</Grid>
+```
+
+### Опис компонента `<TodoListItem/>`
+
+Компонент елемента тудушки. Створює компонент наступної структури. Для створення
+одного елемента списку потрбно використати універсальний компонент `<GridItem/>`
+
+```jsx
+<GridItem>
+  <div className={style.box}>
+    <Text textAlign="center" marginBottom="20">
+      TODO #1
+    </Text>
+    <Text>Some description</Text>
+    <button className={style.deleteButton} type="button">
+      <RiDeleteBinLine size={24} />
+    </button>
+  </div>
+</GridItem>
+```
+
+### Опис компонента `<Todo/>`
+
+## Крок 2
+
+Розшир функціонал застосунку, дозволивши користувачеві видаляти раніше збережені
+тудушки.
+
+[![preview](https://i.gyazo.com/8bf303fed0163b544d5c2314fe1df133.gif)](https://gyazo.com/8bf303fed0163b544d5c2314fe1df133)
+
+## Крок 3 Завдання з \* (не обов'язкове)
+
+Додай можливість редагувати попередньо створені todo
+
+Після додавання кнопки редагування компонент `<TodoListItem/>` буде мати такий
+вигляд
+
+```jsx
+<GridItem>
+  <div className={style.box}>
+    <Text textAlign="center" marginBottom="20">
+      TODO #1
+    </Text>
+    <Text>Some description</Text>
+    <button className={style.deleteButton} type="button">
+      <RiDeleteBinLine size={24} />
+    </button>
+
+    <button className={style.editButton} type="button">
+      <RiEdit2Line size={24} />
+    </button>
+  </div>
+</GridItem>
+```
+
+Компонент форми для редагування `<EditForm/>` буде мати такий вигляд
+
+```jsx
+<form className={style.form}>
+  <button className={style.submitButton} type="submit">
+    <RiSaveLine color="green" size="16px" />
+  </button>
+
+  <button className={style.editButton} type="button">
+    <MdOutlineCancel color="red" size="16px" />
+  </button>
+
+  <input
+    className={style.input}
+    placeholder="What do you want to write?"
+    name="text"
+    required
+    defaultValue={defaultValue}
+    autoFocus
+  />
+</form>
 ```

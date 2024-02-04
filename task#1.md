@@ -1,70 +1,117 @@
-# Картка блогу
+# Пошук зображень
 
-Необхідно доповнити компонент `<BlogCard/>`, за допомогою якого ми могли б
-відображати інформацію про користувача соціальної мережі. Дані про користувача
-лежать у файлі [article.json](./src/data/article.json).
+Напиши застосунок пошуку зображень за ключовим словом. Прев'ю робочого
+застосунку
 
-[![Прев'ю компонента BlogCard](https://i.gyazo.com/5ce54e49016220bcde9209b893eb5e62.jpg)](https://gyazo.com/5ce54e49016220bcde9209b893eb5e62)
+[![Превью](https://i.gyazo.com/76384ee7d41664406ee52acb77351f07.jpg)](https://gyazo.com/76384ee7d41664406ee52acb77351f07)
 
-## Опис компонента `<BlogCard/>`
+Доповни компоненти `<Form>`, `<PhotosGallery>`, `<PhotosGalleryItem>`. Для
+створення сітки використовуй компоненти `<Grid>` та `<GridItem>`
 
-Компонент повинен приймати кілька пропсів з інформацією про користувача:
+> Тут самі файли [Grid](./src/components/Grid/Grid.jsx)
 
-- `poster` — постер картки
-- `tag` — категорія статті
-- `title` — заголовок статті
-- `description` — опис
-- `name` — ім'я користувача
-- `avatar` — аватар користувача
-- `postedAt` — час створення (рекомендовано в форматі від дати до сьогодні)
-
-Компонент повинен створювати наступну структуру.
+В проекті налаштовані Alias imports тому імпорти можна вказувати з папки
+`components`
 
 ```jsx
-<div className={styles.card}>
-  <div className={styles.cardHeader}>
-    <img
-      className={styles.cardPoster}
-      src="https://source.unsplash.com/600x400/?computer"
-      alt="card__image"
-    />
-  </div>
-  <div className={styles.cardBody}>
-    <<span className={styles.tag}>Technology</span>
-    <h2 className={styles.cardTitle}>What's new in 2022 Tech</h2>
-    <p className={styles.cardText}>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis
-      molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!
-    </p>
-  </div>
-  <div className={styles.cardFooter}>
-    <div className={styles.userBox}>
-      <img className={styles.avatar} src="https://i.pravatar.cc/40?img=1" alt="Jane Doe" />
-      <div>
-        <h3 className={styles.userName}>Jane Doe</h3>
-        <small className={styles.date}>2h ago</small>
-      </div>
-    </div>
-  </div>
-</div>
+import { Text } from 'components';
 ```
 
-> Для форматування дати використовуйте метод
-> [formatDistanceToNow](https://date-fns.org/v2.28.0/docs/formatDistanceToNow)
-> бібліотеки **date-fns**
+## Інструкція Pexels API
 
-## Приклад використання
+Для HTTP-запитів використовуй публічний сервіс пошуку зображень
+[ Pexels](https://www.pexels.com/api/documentation/). Приклад HTTP-запиту.
 
 ```js
-import article from 'data/article.json';
+import axios from 'axios';
 
-<BlogCard
-  poster={article.poster}
-  tag={article.tag}
-  title={article.title}
-  description={article.description}
-  userName={article.name}
-  avatar={article.avatar}
-  postedAt={article.postedAt}
-/>;
+const API_KEY = 'тут вставити ключ';
+axios.defaults.baseURL = 'https://api.pexels.com/v1/';
+axios.defaults.headers.common['Authorization'] = API_KEY;
+axios.defaults.params = {
+  orientation: 'landscape',
+  per_page: 15,
+};
 ```
+
+Pexels API підтримує пагінацію, за замовчуванням параметр `page` дорівнює `1`.
+Нехай у відповіді надходить по 15 об'єктів, встановлено в параметрі `per_page`.
+Не забудь, що під час пошуку за новим ключовим словом, необхідно скидати
+значення `page` до `1`.
+
+У відповіді від API приходить масив об'єктів, в яких тобі цікаві лише наступні
+властивості.
+
+- `id` - унікальний ідентифікатор
+- `avg_color` - колір фотографії,
+- `alt` - опис фото,
+- `src` - об'єкт з розмірами картинок, нам цікавий розмір `large`
+
+## Опис компонента `<Form>`
+
+Компонент приймає один проп `onSubmit` - функцію для передачі значення інпута
+під час сабміту форми. Він буде наступної структури.
+
+```jsx
+<form className={style.form}>
+  <button className={style.button} type="submit">
+    <FiSearch size="16px" />
+  </button>
+
+  <input
+    className={style.input}
+    placeholder="What do you want to write?"
+    name="search"
+    required
+    autoFocus
+  />
+</form>
+```
+
+## Опис компонента галереї `<PhotosGallery/>`
+
+Для створення списку зображень в компоненті `<PhotosGallery/>` потрібно
+використати універсальний компонент для створення сітки `<Grid>`.
+
+```jsx
+<Grid>
+  {/*
+     array.map(()=> <PhotosGalleryItem/>);
+    */}
+</Grid>
+```
+
+## Опис компонента `<GridItem>`
+
+Для створення однієї одного елемента списку потрібно використати
+`<PhotosGalleryItem>`, який використовує `<GridItem/>`
+
+Компонент елемента списку із зображенням. Створює компонент наступної структури.
+
+```jsx
+<GridItem>
+  <div
+    className={styles.thumb}
+    style={{ backgroundColor: avg_color, borderColor: avg_color }}
+  >
+    <img src={src.large} alt={alt} />
+  </div>
+</GridItem>
+```
+
+## Опис компонента `<Button>`
+
+При натисканні на кнопку `Load more` повинна довантажуватись наступна порція
+зображень і рендеритися разом із попередніми. Кнопка повинна рендеритися лише
+тоді, коли є якісь завантажені зображення. Якщо масив зображень порожній, кнопка
+не рендериться.
+
+## Опис компонента `<Loader>`
+
+Під час відправки запиту на Pexels необхідно відображати компонент `<Loader/>`
+
+```jsx
+<div className={style.backdrop}>spinner</div>
+```
+
+Для відображення спінера можна використати бібліотеку `react-spinners`
