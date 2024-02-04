@@ -1,3 +1,4 @@
+import style from './Loader.module.css';
 export const Loader = () => {
-  return <div>Loader</div>;
+  return <div className={style.backdrop}>spinner</div>;
 };
