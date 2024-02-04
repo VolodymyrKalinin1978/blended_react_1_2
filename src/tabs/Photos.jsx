@@ -1,5 +1,5 @@
 import { getPhotos } from 'apiService/photos';
-import { Text, Form } from 'components';
+import { Text, Form, PhotosGallery } from 'components';
 import { useEffect, useState } from 'react';
 
 export const Photos = () => {
@@ -22,6 +22,7 @@ export const Photos = () => {
     <>
       <Text textAlign="center">Let`s begin search 🔎</Text>
       <Form onSubmit={handleSubmit} />
+      <PhotosGallery images={images} />
     </>
   );
 };
