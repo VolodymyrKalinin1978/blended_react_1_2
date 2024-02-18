@@ -1,16 +1,16 @@
-// import { FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
+import styles from 'components/SearchForm/SearchForm.module.css';
 
-// const regions = [
-//   { id: 'africa', value: 'africa', name: 'Africa' },
-//   { id: 'america', value: 'america', name: 'America' },
-//   { id: 'asia', value: 'asia', name: 'Asia' },
-//   { id: 'europe', value: 'europe', name: 'Europe' },
-//   { id: 'oceania', value: 'oceania', name: 'Oceania' },
-// ];
-
-export const SearchForm = () => {
+export const SearchForm = ({ onSubmit }) => {
+  const regions = [
+    { id: 'africa', value: 'africa', name: 'Africa' },
+    { id: 'america', value: 'america', name: 'America' },
+    { id: 'asia', value: 'asia', name: 'Asia' },
+    { id: 'europe', value: 'europe', name: 'Europe' },
+    { id: 'oceania', value: 'oceania', name: 'Oceania' },
+  ];
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <button className={styles.button} type="submit">
         <FiSearch size="16px" />
       </button>
@@ -25,7 +25,11 @@ export const SearchForm = () => {
         <option disabled value="default">
           Select a region
         </option>
-        <option value="america">America</option>
+        {regions.map(region => (
+          <option key={region.id} value={region.value}>
+            {region.name}
+          </option>
+        ))}
       </select>
     </form>
   );

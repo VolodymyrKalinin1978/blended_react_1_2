@@ -1,11 +1,22 @@
-import { Container, Heading, Section } from 'components';
+import { Container, SearchForm, Section } from 'components';
 
-export const SearchCountry = () => {
+const SearchCountry = ({ onChange }) => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    const region = e.target.region.value;
+    if (!region) return;
+    onChange(region);
+  };
+
   return (
-    <Section>
-      <Container>
-        <Heading title="SearchCountry" bottom />
-      </Container>
-    </Section>
+    <>
+      <Section>
+        <Container>
+          <SearchForm onSubmit={handleSubmit} />
+        </Container>
+      </Section>
+    </>
   );
 };
+
+export default SearchCountry;
