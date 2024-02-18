@@ -1,4 +1,4 @@
-import { Container, Heading, Section } from 'components';
+import { Container, CountryList, Heading, Section } from 'components';
 import { useState, useEffect } from 'react';
 import { fetchByRegion } from '../../service/countryApi';
 
@@ -20,6 +20,7 @@ const Home = () => {
     <Section>
       <Container>
         <Heading title="Home" bottom />
+        {countries && <CountryList countries={countries} />}
       </Container>
     </Section>
   );
