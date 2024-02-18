@@ -9,5 +9,24 @@
 // ];
 
 export const SearchForm = () => {
-  return <h2>SearchForm</h2>;
+  return (
+    <form className={styles.form}>
+      <button className={styles.button} type="submit">
+        <FiSearch size="16px" />
+      </button>
+
+      <select
+        aria-label="select"
+        className={styles.select}
+        name="region"
+        required
+        defaultValue="default"
+      >
+        <option disabled value="default">
+          Select a region
+        </option>
+        <option value="america">America</option>
+      </select>
+    </form>
+  );
 };
