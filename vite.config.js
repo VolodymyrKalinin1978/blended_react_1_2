@@ -7,10 +7,10 @@ export default defineConfig({
   resolve: {
     alias: {
       components: '/src/components',
-      data: '/src/data',
+      pages: '/src/pages',
       helpers: '/src/helpers',
       styles: '/src/styles',
-      // pages: '/src/pages',
+      service: '/src/service',
     },
   },
 });
