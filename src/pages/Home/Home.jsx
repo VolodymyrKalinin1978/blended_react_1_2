@@ -1,4 +1,4 @@
-import { Container, CountryList, Heading, Section } from 'components';
+import { Container, CountryList, Section } from 'components';
 import { useState, useEffect } from 'react';
 import { fetchByRegion } from '../../service/countryApi';
 import SearchCountry from 'pages/SearchCountry/SearchCountry';
@@ -21,6 +21,7 @@ const Home = () => {
     try {
       const result = await fetchByRegion(region);
       setCountries(result);
+      console.log(result);
     } catch (error) {
       console.error('Error searching countries by region:', error.message);
     }
