@@ -3,11 +3,15 @@ import toast from "react-hot-toast";
 import { BiMailSend } from "react-icons/bi";
 import styles from "./Form.module.css";
 import { useAddCommentMutation } from "../../redux/commentApi";
+import { Loader } from "../Loader/Loader";
 
 export const Form = () => {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
-  const [addComment, { isLoading }] = useAddCommentMutation();
+  const [addComment, { isLoading, isSuccess }] = useAddCommentMutation();
+  if (isSuccess) {
+    toast.success("Congrats, you commit edit");
+  }
 
   const onHandleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +62,7 @@ export const Form = () => {
           Send
         </button>
       </form>
+      {isLoading && <Loader />}
     </div>
   );
 };

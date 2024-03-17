@@ -44,7 +44,7 @@ export const Comment = ({
               <TiThumbsDown className={styles.icon} />
             </Button>
             <button type="button" onClick={handleDelete}>
-              {isLoading ? "..." : "Delete"}
+              Delete
             </button>
           </div>
         </div>
